@@ -17,14 +17,24 @@ Route::get('home', 'HomeController@index');
 
 Route::get('hello', 'HelloController@index');
 
-Route::get('articles', 'ArticlesController@index'); 
-Route::get('articles/{id?}', 'ArticlesController@show'); 
+// Route::get('articles', 'ArticlesController@index'); 
+// Route::get('articles/{id?}', 'ArticlesController@show'); 
 
 Route::get('categories', 'CategoriesController@index');
 
 Route::controller('pages', 'PagesController');
 
+Route::resource('articles', 'ArticlesController');
+
 Route::controllers([
 	'auth' => 'Auth\AuthController',
 	'password' => 'Auth\PasswordController',
 ]);
+
+Route::get('lang/{lang}', function($lang){
+	$available = ['en', 'th'];
+	Session::put('locale', in_array($lang, $available)? $lang :
+	Config::get('app.locale'));
+	return redirect()->back();
+});
+   
